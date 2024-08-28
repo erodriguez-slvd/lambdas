@@ -3,6 +3,7 @@ package org.example;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
@@ -18,7 +19,9 @@ public class Task8 {
         System.out.println(solution(3, 4, Arrays.asList(integerArray)));
     }
 
-    public static List<Integer> solution(int d, int k, List<Integer> integerArray) {
-        return integerArray.stream().filter(e -> e > d).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+    public static List<Integer> solution(int d, int k, List<Integer> integerList) {
+        Set<Integer> result = integerList.stream().filter(e -> e > d).collect(Collectors.toSet());
+        result.addAll(integerList.stream().skip(k).collect(Collectors.toSet()));
+        return result.stream().sorted(Comparator.reverseOrder()).toList();
     }
 }
