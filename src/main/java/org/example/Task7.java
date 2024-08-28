@@ -7,9 +7,8 @@ In the resulting difference, replace the order with the reversed.
 input: number = 5, {1, 2, 3, 4, 5, 6, 7, 8, 9}
 output: {9, 7, 4, 2}
  */
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Task7 {
@@ -19,7 +18,12 @@ public class Task7 {
     }
 
     public static List<Integer> solution(int k, List<Integer> integerList) {
-        List<Integer> evenIntegers= integerList.stream().filter(n -> n % 2 != 0).toList();
-        return evenIntegers.stream().skip(k).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        Set<Integer> evenIntegers = integerList.stream().filter(n -> n % 2 == 0).collect(Collectors.toSet()); //[2 4 6 8]
+        Set<Integer> secondSubset = integerList.stream().skip(k).collect(Collectors.toSet()); //[6 7 8 9]
+
+        Set<Integer> result = new HashSet<>(evenIntegers);
+        result.addAll(secondSubset);
+        result.removeAll(evenIntegers.stream().filter(secondSubset::contains).collect(Collectors.toList()));
+        return result.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 }
